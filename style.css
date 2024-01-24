@@ -1,0 +1,139 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+html{
+  font-size: 24px;
+}
+*{
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
+  outline: none;
+  text-decoration: none;
+  font-family: 'Roboto', Arial;
+  box-sizing: border-box;
+}
+
+:root{
+  --gray: #e1dddb;
+  --light-blue: #abdff1;
+  --dark-blue: #0c4a60;
+  --orange: #ef6c33;
+}
+
+body{
+  background-color: var(--light-blue);
+}
+
+body h1{
+  color: var(--orange);
+  text-align: center;
+  font-size: 4rem;
+  padding-top: 1rem;
+}
+
+main{
+  display: flex;
+  justify-content: space-around;
+  margin-top: 5rem;
+}
+
+.left-section{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+}
+.color-pick{
+  display: flex;
+  align-items: center;
+}
+
+.color-pick input {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 5rem;
+  height: 5rem;
+  border: none;
+  background-color: transparent;
+}
+
+.color-pick input::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.color-pick input::-webkit-color-swatch {
+  border: none;
+  border-radius: 3.1rem;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  transition: all 0.15s;
+}
+
+.color-pick input:hover{
+  transform: scale(1.1);
+}
+
+button{
+  background-color: var(--gray);
+  border: var(--dark-blue) solid 0.2rem;;
+  padding: 1rem 2rem;
+  width: 10rem;
+  height: 4rem;
+  font-size: 1rem;
+  transition: all 0.15s;
+}
+
+button:hover{
+  transform: scale(1.1);
+}
+
+.change-grid{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.change-grid p{
+  font-size: 1rem;
+}
+
+.change-grid input{
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: var(--light-blue);
+}
+
+.change-grid input::-webkit-slider-runnable-track {
+  height: 0.8rem;
+  border: 0.12rem solid var(--dark-blue);
+  border-radius: 1.56rem;
+  background: var(--light-blue);
+}
+
+.change-grid input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 1.5rem;
+  margin-top: -0.5rem;
+  background: var(--dark-blue);
+}
+
+.grid{
+  box-sizing: content-box;
+  width: 37.2rem;
+  height: 37.2rem;
+  background-color: white;
+  border: 0.3rem solid var(--dark-blue);
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.right-section{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 2rem;
+}
