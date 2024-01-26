@@ -1,2 +1,0 @@
-I've been working on the etch a sketch project and i got the following problem. I started working on the main drawing part. My idea was to create a variable called isMouseDown that gets by default the value of false, becomes true when the document recieves the mousedown event listener and then turns back to false when the document recieves the mouseup event listener. Then, for each div inside the grid I added an event listener that listens to mouseenter. If the isMouseDown variable is true, the div changes color. 
-This code works fine, but there is a problem. 
