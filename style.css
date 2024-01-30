@@ -74,6 +74,9 @@ main{
 }
 
 button{
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: var(--gray);
   border: var(--dark-blue) solid 0.2rem;;
   padding: 1rem 2rem;
@@ -136,4 +139,10 @@ button:hover{
   justify-content: center;
   flex-direction: column;
   gap: 2rem;
+}
+
+.active{
+  background-color: var(--orange);
+  color: var(--dark-blue);
+  border-color: var(--dark-blue)
 }

@@ -14,21 +14,22 @@
       <div class="color-pick">
         <input type="color" id = "color-picker">
       </div>
-      <button>color graber</button>
+      <button id = "graber">color graber</button>
       <div class="change-grid">
         <p>chane the grid's layout</p>
-        <input type="range" value = "16" min = "1" max = "40" id = 'change-grid'>
+        <input type="range" defaultValue = "16" min = "1" max = "40" id = 'change-grid'>
         <p id = 'grid-size'>16 x 16</p>
       </div>
-      <button class="active">Toggle grid lines</button>
+      <button>Toggle grid lines</button>
     </section>
 
     <section class="grid" id = "grid"></section>
   
     <section class="right-section">
-      <button>random color</button>
-      <button>lighten</button>
-      <button>darken</button>
+      <button class = 'activeable'>random color</button>
+      <button id = 'clear'>clear</button>
+      <button class = 'activeable'>brighten</button>
+      <button class = 'activeable'>darken</button>
     </section>
   </main>
 </body>
