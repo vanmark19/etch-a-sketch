@@ -144,5 +144,5 @@ button:hover{
 .active{
   background-color: var(--orange);
   color: var(--dark-blue);
-  border-color: var(--dark-blue)
+  border-color: var(--dark-blue);
 }
