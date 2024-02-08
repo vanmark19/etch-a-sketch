@@ -50,9 +50,9 @@ function setActiveClass(e){
 }
 
 function findColor(e){
-  // colorPicker.value = e.target.style.backgroundColor;
   penColor = e.target.style.backgroundColor;
-  console.log(penColor);
+  colorPicker.value = rgbToHex(penColor);
+  // console.log(penColor);
 }
 function setGraberMode(e){
   setActiveClass(e);
@@ -60,10 +60,65 @@ function setGraberMode(e){
     document.querySelectorAll('#grid div').forEach(div => {
       div.removeEventListener('mouseover', draw);
       div.addEventListener('click', findColor);
+      
     });
+  } else {
+    document.querySelectorAll('#grid div').forEach(div => {
+      div.removeEventListener('click', findColor);
+      div.addEventListener('mouseover', draw);
+    });
+    
   }
 }
+function rgbToHex(value){
+  value = value.split(',');
 
+  let r = componentToHex(value[0].slice(4));
+ 
+  
+  let g = componentToHex(value[1].slice(1));
+    
+  let b = componentToHex(value[2].split(')')[0].slice(1));
+  console.log(`#${r}${g}${b}`);
+  return `#${r}${g}${b}`;
+  }
+   function componentToHex(c){
+    let c1, c2
+  if (c < 10){
+    c1 = 0;
+    c2 = c;
+  } else if (c >= 10 && c < 16){
+    c1 = numToHex(c);
+    c2 = '';
+  }
+    
+  else{
+    c1 = Math.floor(c / 16);
+
+     c2 = c - c1 * 16;
+  
+    c1 = numToHex(c1);
+    c2 = numToHex(c2);  
+   
+  }
+  c = `${c1}${c2}`;
+  return c;
+   }
+   function numToHex(n){
+    if (n === 10)
+      return 'A';
+    else if (n === 11)
+      return 'B';
+    else if (n === 12)
+    return 'C';
+    else if (n === 13)
+    return 'D';
+    else if (n === 14)
+    return 'E';
+    else if (n === 15)
+    return 'F';
+    return n;   
+  }
 
 //changes the isMouseDown variable
 document.addEventListener('mousedown', e =>{ 
