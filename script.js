@@ -6,6 +6,7 @@ const gridPicker = document.querySelector('#change-grid');
 const colorGraber = document.querySelector('#graber');
 let isMouseDown = false;
 const randomColorbtn = document.querySelector('#random-color');
+const toggleLinesBtn = document.querySelector('#toggle-lines');
 
 
 // declare functions
@@ -14,6 +15,7 @@ function createGrid(n){;
   grid.innerHTML = '';
   for (let i = 1; i <= n * n; i++){
     let div = document.createElement('div');
+    div.style.boxSizing = 'border-box';
     div.style.width = `${37.2 / n}rem`;
     div.style.height = `${37.2 / n}rem`;
     div.addEventListener('mouseover', draw);
@@ -150,6 +152,30 @@ function rgbToHex(value){
       });
     }
   }
+
+  function toggleLines(e){
+    setActiveClass(e);
+    if (toggleLinesBtn.classList.contains('active')){
+      let n = gridPicker.value;
+    document.querySelectorAll('#grid div').forEach((div, i) => {
+      if( i + 1 >= n && (i + 1) % n == 0 && i + 1 !== n * n)
+        div.style.borderBottom = '1px solid black';
+      else if(i + 1 < n * (n - 1)){
+        div.style.borderBottom = '1px solid black';
+        div.style.borderRight = '1px solid black';
+      } else if (i !== n * n)
+      div.style.borderRight = '1px solid black';
+
+      
+  });
+    } else{
+        document.querySelectorAll('#grid div').forEach(div => {
+          div.style.border = 'none';
+        });
+    }
+    
+    
+  }
 //changes the isMouseDown variable
 document.addEventListener('mousedown', e =>{ 
   if (e.target != document.querySelector('#change-grid'))
@@ -162,7 +188,7 @@ document.addEventListener('mouseup', () => {isMouseDown = false;});
 
 
 // generates the first grid
-createGrid(16);
+createGrid(gridPicker.value);
 
 
 
@@ -172,3 +198,4 @@ gridPicker.addEventListener('input',changeGridSize);
 clearButton.addEventListener('click',clear);
 colorGraber.addEventListener('click',setGraberMode);
 randomColorbtn.addEventListener('click', doRandomColor);
+toggleLinesBtn.addEventListener('click', toggleLines);
