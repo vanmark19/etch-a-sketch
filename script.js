@@ -5,7 +5,7 @@ const clearButton = document.querySelector('#clear');
 const gridPicker = document.querySelector('#change-grid');
 const colorGraber = document.querySelector('#graber');
 let isMouseDown = false;
-
+const randomColorbtn = document.querySelector('#random-color');
 
 
 // declare functions
@@ -22,10 +22,13 @@ function createGrid(n){;
 }
 
 function draw(e){
-  if (isMouseDown)
+  if (isMouseDown){
       e.target.style.backgroundColor = penColor;
+  }
 }
 function changePenColor(e){
+  if (randomColorbtn.classList.contains('active'))
+    randomColorbtn.click();
   penColor = e.target.value;
 }
 
@@ -52,15 +55,17 @@ function setActiveClass(e){
 function findColor(e){
   penColor = e.target.style.backgroundColor;
   colorPicker.value = rgbToHex(penColor);
-  // console.log(penColor);
+  colorGraber.click();
 }
 function setGraberMode(e){
+  if (randomColorbtn.classList.contains('active'))
+    randomColorbtn.click();
   setActiveClass(e);
   if(e.target.classList.contains('active')){
     document.querySelectorAll('#grid div').forEach(div => {
       div.removeEventListener('mouseover', draw);
       div.addEventListener('click', findColor);
-      
+     
     });
   } else {
     document.querySelectorAll('#grid div').forEach(div => {
@@ -79,7 +84,6 @@ function rgbToHex(value){
   let g = componentToHex(value[1].slice(1));
     
   let b = componentToHex(value[2].split(')')[0].slice(1));
-  console.log(`#${r}${g}${b}`);
   return `#${r}${g}${b}`;
   }
    function componentToHex(c){
@@ -119,15 +123,40 @@ function rgbToHex(value){
     return 'F';
     return n;   
   }
+  
+  function getRandomColor(){
+    let values = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'A', 'B', 'C', 'D', 'E', 'F'];
+    penColor = `#${values[Math.floor(Math.random() * 16)]}${values[Math.floor(Math.random() * 16)]}${values[Math.floor(Math.random() * 16)]}${values[Math.floor(Math.random() * 16)]}${values[Math.floor(Math.random() * 16)]}${values[Math.floor(Math.random() * 16)]}`;
 
+  }
+
+  function randomColorDraw(e){
+    getRandomColor();
+    if (isMouseDown)
+    e.target.style.backgroundColor = penColor;
+  }
+  function doRandomColor(e){
+    setActiveClass(e);
+    if(e.target.classList.contains('active')){
+      document.querySelectorAll('#grid div').forEach(div => {
+        div.removeEventListener('mouseover', draw);
+        div.addEventListener('mouseover', randomColorDraw);
+      });
+    } else {
+      document.querySelectorAll('#grid div').forEach(div => {
+        div.removeEventListener('mouseover', randomColorDraw);
+        div.addEventListener('mouseover', draw);
+        penColor = colorPicker.value;
+      });
+    }
+  }
 //changes the isMouseDown variable
 document.addEventListener('mousedown', e =>{ 
   if (e.target != document.querySelector('#change-grid'))
   e.preventDefault();
   isMouseDown = true;
-
 });
-document.addEventListener('mouseup', () => {isMouseDown = false});
+document.addEventListener('mouseup', () => {isMouseDown = false;});
 
 
 
@@ -142,9 +171,4 @@ colorPicker.addEventListener('input',changePenColor);
 gridPicker.addEventListener('input',changeGridSize);
 clearButton.addEventListener('click',clear);
 colorGraber.addEventListener('click',setGraberMode);
-
-
-
-
-
-
+randomColorbtn.addEventListener('click', doRandomColor);
