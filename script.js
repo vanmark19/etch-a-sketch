@@ -7,7 +7,7 @@ const colorGraber = document.querySelector('#graber');
 let isMouseDown = false;
 const randomColorbtn = document.querySelector('#random-color');
 const toggleLinesBtn = document.querySelector('#toggle-lines');
-
+const brightenBtn = document.querySelector('#brighten');
 
 // declare functions
 function createGrid(n){;
@@ -31,6 +31,8 @@ function draw(e){
 function changePenColor(e){
   if (randomColorbtn.classList.contains('active'))
     randomColorbtn.click();
+  if (brightenBtn.classList.contains('active'))
+    brightenBtn.click();
   penColor = e.target.value;
 }
 
@@ -139,6 +141,8 @@ function rgbToHex(value){
   }
   function doRandomColor(e){
     setActiveClass(e);
+    if (brightenBtn.classList.contains('active'))
+    brightenBtn.click();
     if(e.target.classList.contains('active')){
       document.querySelectorAll('#grid div').forEach(div => {
         div.removeEventListener('mouseover', draw);
@@ -176,6 +180,61 @@ function rgbToHex(value){
     
     
   }
+
+  
+
+  function lighten(e){
+    if (isMouseDown){
+      let value = e.target.style.backgroundColor;
+      if (value === '')
+        return 0;
+          
+      value = value.split(',');  
+      let r = +value[0].slice(4);
+      let g = +value[1].slice(1);
+      let b = +value[2].split(')')[0].slice(1);
+      if (r + 20 > 255)
+        r = 255;
+      else  
+        r += 20;
+
+      if (g + 20 > 255)
+        g = 255;
+      else  
+        g += 20;  
+      
+      if (b + 20 > 255)
+        b = 255;
+      else  
+        b += 20;
+      e.target.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+    } 
+
+    
+  }
+  function doBrightenBtn(e){
+    setActiveClass(e);
+    if (e.target.classList.contains('active')){
+     
+      document.querySelectorAll('#grid div').forEach(div => {
+        
+        div.removeEventListener('mouseover', draw);
+        div.removeEventListener('click', findColor);
+        div.removeEventListener('mouseover', randomColorDraw);
+        div.addEventListener('mouseover', lighten);
+      });
+    } else{
+      document.querySelectorAll('#grid div').forEach(div => {
+      
+        div.removeEventListener('mouseover', lighten);
+        div.addEventListener('mouseover', draw);
+      });
+    }
+  }
+
+
+
+
 //changes the isMouseDown variable
 document.addEventListener('mousedown', e =>{ 
   if (e.target != document.querySelector('#change-grid'))
@@ -199,3 +258,4 @@ clearButton.addEventListener('click',clear);
 colorGraber.addEventListener('click',setGraberMode);
 randomColorbtn.addEventListener('click', doRandomColor);
 toggleLinesBtn.addEventListener('click', toggleLines);
+brightenBtn.addEventListener('click', doBrightenBtn);
