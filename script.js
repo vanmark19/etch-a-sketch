@@ -8,8 +8,11 @@ let isMouseDown = false;
 const randomColorbtn = document.querySelector('#random-color');
 const toggleLinesBtn = document.querySelector('#toggle-lines');
 const brightenBtn = document.querySelector('#brighten');
+const darkenBtn = document.querySelector('#darken');
 
 // declare functions
+
+//This function is called each time the gridPicker get's an input, n is the desired value
 function createGrid(n){;
   const grid = document.querySelector('#grid');
   grid.innerHTML = '';
@@ -29,10 +32,17 @@ function draw(e){
   }
 }
 function changePenColor(e){
+
+  // these if's make sure there aren't more functions (incompatible with each other) active at the same time
+  // I repeated this if's a few times, but this comments will only be here
   if (randomColorbtn.classList.contains('active'))
     randomColorbtn.click();
   if (brightenBtn.classList.contains('active'))
     brightenBtn.click();
+  if (darkenBtn.classList.contains('active'))
+    darkenBtn.click();
+  if (colorGraber.classList.contains('active'))
+    colorGraber.click();
   penColor = e.target.value;
 }
 
@@ -56,6 +66,8 @@ function setActiveClass(e){
     btn.classList.add('active');
 }
 
+//I had to convert from rgb to Hex because i could only change the color picker input
+//  if i had a hex value
 function findColor(e){
   penColor = e.target.style.backgroundColor;
   colorPicker.value = rgbToHex(penColor);
@@ -64,6 +76,10 @@ function findColor(e){
 function setGraberMode(e){
   if (randomColorbtn.classList.contains('active'))
     randomColorbtn.click();
+  if (brightenBtn.classList.contains('active'))
+    brightenBtn.click();
+  if (darkenBtn.classList.contains('active'))
+    darkenBtn.click();
   setActiveClass(e);
   if(e.target.classList.contains('active')){
     document.querySelectorAll('#grid div').forEach(div => {
@@ -140,9 +156,13 @@ function rgbToHex(value){
     e.target.style.backgroundColor = penColor;
   }
   function doRandomColor(e){
-    setActiveClass(e);
-    if (brightenBtn.classList.contains('active'))
+  if (brightenBtn.classList.contains('active'))
     brightenBtn.click();
+  if (darkenBtn.classList.contains('active'))
+    darkenBtn.click();
+  if (colorGraber.classList.contains('active'))
+    colorGraber.click();
+    setActiveClass(e);
     if(e.target.classList.contains('active')){
       document.querySelectorAll('#grid div').forEach(div => {
         div.removeEventListener('mouseover', draw);
@@ -213,14 +233,18 @@ function rgbToHex(value){
     
   }
   function doBrightenBtn(e){
+    if (randomColorbtn.classList.contains('active'))
+      randomColorbtn.click();
+    if (darkenBtn.classList.contains('active'))
+      darkenBtn.click();
+    if (colorGraber.classList.contains('active'))
+      colorGraber.click();
     setActiveClass(e);
     if (e.target.classList.contains('active')){
      
       document.querySelectorAll('#grid div').forEach(div => {
         
         div.removeEventListener('mouseover', draw);
-        div.removeEventListener('click', findColor);
-        div.removeEventListener('mouseover', randomColorDraw);
         div.addEventListener('mouseover', lighten);
       });
     } else{
@@ -230,6 +254,59 @@ function rgbToHex(value){
         div.addEventListener('mouseover', draw);
       });
     }
+  }
+
+  function doDarken(e){
+    if (randomColorbtn.classList.contains('active'))
+    randomColorbtn.click();
+    if (brightenBtn.classList.contains('active'))
+      brightenBtn.click();
+    if (colorGraber.classList.contains('active'))
+      colorGraber.click();
+    setActiveClass(e);
+    if (e.target.classList.contains('active')){
+     
+      document.querySelectorAll('#grid div').forEach(div => {
+        
+        div.removeEventListener('mouseover', draw);
+        div.addEventListener('mouseover', darken);
+      });
+    } else{
+      document.querySelectorAll('#grid div').forEach(div => {
+      
+        div.removeEventListener('mouseover', darken);
+        div.addEventListener('mouseover', draw);
+      });
+    }
+  }
+  
+  function darken(e){
+    if (isMouseDown){
+      let value = e.target.style.backgroundColor;
+      if (value === '')
+        value = 'rgb(255, 255, 255)';
+          
+      value = value.split(',');  
+      let r = +value[0].slice(4);
+      let g = +value[1].slice(1);
+      let b = +value[2].split(')')[0].slice(1);
+      if (r - 20 < 0)
+        r = 0;
+      else  
+        r -= 20;
+
+      if (g - 20 < 0)
+        g = 0;
+      else  
+        g -= 20;  
+      
+      if (b - 20 < 0)
+        b = 0;
+      else  
+        b -= 20;
+      e.target.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+    } 
+
   }
 
 
@@ -259,3 +336,7 @@ colorGraber.addEventListener('click',setGraberMode);
 randomColorbtn.addEventListener('click', doRandomColor);
 toggleLinesBtn.addEventListener('click', toggleLines);
 brightenBtn.addEventListener('click', doBrightenBtn);
+darkenBtn.addEventListener('click', doDarken);
+
+
+
