@@ -1,1 +1,1 @@
-It's the etch a sketch project from the oding project, but I added some more features.
+It's the etch a sketch project from the odin project, but I added some more features.
